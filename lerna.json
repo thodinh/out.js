@@ -1,0 +1,13 @@
+{
+  "version": "0.14.0-alpha.8",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "npmClientArgs": ["--ignore-engines"],
+  "command": {
+    "version": {
+      "forcePublish": true,
+      "exact": true,
+      "message": "chore(versions): 😊 publish %s"
+    }
+  }
+}
