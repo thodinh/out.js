@@ -1,0 +1,21 @@
+{
+  "name": "@nocobase/auth",
+  "version": "0.14.0-alpha.8",
+  "description": "",
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "@nocobase/actions": "0.14.0-alpha.8",
+    "@nocobase/database": "0.14.0-alpha.8",
+    "@nocobase/resourcer": "0.14.0-alpha.8",
+    "@nocobase/utils": "0.14.0-alpha.8",
+    "@types/jsonwebtoken": "^8.5.8",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nocobase/nocobase.git",
+    "directory": "packages/auth"
+  }
+}

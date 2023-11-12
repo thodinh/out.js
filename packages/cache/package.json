@@ -1,0 +1,21 @@
+{
+  "name": "@nocobase/cache",
+  "version": "0.14.0-alpha.8",
+  "description": "",
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "cache-manager": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/cache-manager": "^4.0.2",
+    "cache-manager-fs-hash": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nocobase/nocobase.git",
+    "directory": "packages/cache"
+  },
+  "gitHead": "ce588eefb0bfc50f7d5bbee575e0b5e843bf6644"
+}

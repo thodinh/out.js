@@ -1,0 +1,12 @@
+{
+  "name": "out.js",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/thodinh/out.js.git",
+  "author": "Đinh Thọ <d.tr.tho@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ]
+}
