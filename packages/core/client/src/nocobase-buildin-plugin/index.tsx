@@ -2,8 +2,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
 import { observer } from '@formily/reactive-react';
 import { Button, Modal, Result, Spin } from 'antd';
-import React, { FC, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { FC } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { ACLPlugin } from '../acl';
 import { Application } from '../application';
 import { Plugin } from '../application/Plugin';
@@ -20,52 +20,14 @@ import { ErrorFallback } from '../schema-component/antd/error-fallback';
 import { SchemaInitializerPlugin } from '../schema-initializer';
 import { BlockTemplateDetails, BlockTemplatePage } from '../schema-templates';
 import { SystemSettingsPlugin } from '../system-settings';
-import { CurrentUserProvider, CurrentUserSettingsMenuProvider, useCurrentUserContext } from '../user';
+import { CurrentUserProvider, CurrentUserSettingsMenuProvider } from '../user';
 import { LocalePlugin } from './plugins/LocalePlugin';
-import { TypeAnimation } from 'react-type-animation';
 
 const AppSpin = () => {
-  const [typing, setTyping] = React.useState<any>('Loading...');
-  useEffect(() => {
-    setTimeout(() => {
-      setTyping(<TypeAnimation
-        sequence={[
-          'Loading new, exciting life. Please stand by...',
-          3000,
-          'You think I fell off while I’m loading up...',
-          5000,
-          '“The purpose of our lives is to be happy.” — Dalai Lama',
-          8000,
-          '“To lose patience is to lose the battle.” — Mahatma Gandhi',
-          13000,
-          '“Train your mind to see the good in every situation.” — Unknown',
-          21000,
-          '“If you can stay positive in a negative situation, you win.” — Unknown',
-          34000,
-          '“Patience is bitter, but its fruit is sweet.” — Aristotle',
-          55000,
-          '“What we think, we become.” — Buddha',
-          89000,
-        ]}
-        speed={50}
-        style={{ fontSize: '1em' }}
-        repeat={Infinity}
-      />)
-    }, 1000);
-  }, []);
   return (
-    <Spin style={{ position: 'fixed', top: '50%', left: '50%',  transform: 'translate(-50%, -50%)', fontSize: '2em'}} tip={typing}><div /></Spin>
+    <Spin style={{ position: 'fixed', top: '50%', left: '50%', fontSize: 72, transform: 'translate(-50%, -50%)' }} />
   );
 };
-
-const RootComponent: FC<{ app: Application }> = observer((app) => {
-  const usrCtx = useCurrentUserContext();
-  const redirect = `?redirect=/admin`;
-  if (!usrCtx?.data?.data?.id) {
-    return <Navigate replace to={`/signin${redirect}`} />;
-  }
-  return <Navigate replace to={`/admin`} />;
-});
 
 const AppError: FC<{ app: Application }> = observer(({ app }) => (
   <div>
@@ -226,6 +188,22 @@ const AppMaintainingDialog: FC<{ app: Application; error: Error }> = observer(({
   );
 });
 
+const AppNotFound = () => {
+  const navigate = useNavigate();
+  return (
+    <Result
+      status="404"
+      title="404"
+      subTitle="Sorry, the page you visited does not exist."
+      extra={
+        <Button onClick={() => navigate('/', { replace: true })} type="primary">
+          Back Home
+        </Button>
+      }
+    />
+  );
+};
+
 export class NocoBaseBuildInPlugin extends Plugin {
   async afterAdd() {
     this.app.addComponents({
@@ -233,6 +211,7 @@ export class NocoBaseBuildInPlugin extends Plugin {
       AppError,
       AppMaintaining,
       AppMaintainingDialog,
+      AppNotFound,
     });
     await this.addPlugins();
   }
@@ -251,7 +230,12 @@ export class NocoBaseBuildInPlugin extends Plugin {
   addRoutes() {
     this.router.add('root', {
       path: '/',
-      element: <RootComponent app={this.app}/>,
+      element: <Navigate replace to="/admin" />,
+    });
+
+    this.router.add('not-found', {
+      path: '*',
+      Component: AppNotFound,
     });
 
     this.router.add('admin', {

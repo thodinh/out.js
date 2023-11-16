@@ -9,9 +9,6 @@ export const getWebSocketURL = () => {
   const queryString = subApp ? `?__appName=${subApp}` : '';
   if (process.env.WEBSOCKET_URL) {
     const url = new URL(process.env.WEBSOCKET_URL);
-    if (location.hostname.includes('gitpod.io')) {
-      return `wss://${location.hostname}/ws${queryString}`;
-    }
     if (url.hostname === 'localhost') {
       return `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.hostname}:${url.port}/ws${queryString}`;
     }
